@@ -1,11 +1,11 @@
 // Firebase Web config.
 // Use Firebase's default auth domain for Firebase Authentication.
 export const firebaseConfig = {
-  apiKey: "AIzaSyDiofxoXmDTbyPntzM6eIg3tEceg3iWd0s",
-  authDomain: "mcp-server-vercel.firebaseapp.com",
-  databaseURL: "https://mcp-server-vercel-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "mcp-server-vercel",
-  storageBucket: "mcp-server-vercel.firebasestorage.app",
-  messagingSenderId: "984748454656",
-  appId: "1:984748454656:web:983f2980cf7e22e55df9e5"
+  apiKey: "REPLACE_WITH_FIREBASE_WEB_API_KEY",
+  authDomain: "REPLACE_PROJECT_ID.firebaseapp.com",
+  databaseURL: "https://REPLACE_PROJECT_ID-default-rtdb.REGION.firebasedatabase.app",
+  projectId: "REPLACE_PROJECT_ID",
+  storageBucket: "REPLACE_PROJECT_ID.firebasestorage.app",
+  messagingSenderId: "REPLACE_SENDER_ID",
+  appId: "REPLACE_WITH_FIREBASE_APP_ID"
 };

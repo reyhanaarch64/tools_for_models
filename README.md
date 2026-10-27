@@ -39,7 +39,7 @@ Credential asli tidak disimpan plaintext di RTDB. Backend mengenkripsi value men
 ## setup Firebase
 
 1. Firebase Authentication: aktifkan Email/Password. Google Sign-In tidak digunakan.
-2. Realtime Database: buat database pada project `mcp-server-vercel`.
+2. Realtime Database: buat database pada project Firebase kamu (ganti REPLACE_PROJECT_ID dengan project ID sendiri).
 3. Deploy `database.rules.json` dengan Firebase CLI atau copy rules-nya ke RTDB Rules.
 4. Buat service account Firebase Admin dari Firebase/Google Cloud Console.
 5. Siapkan konfigurasi backend private sesuai `credential.example.js` (service account, database URL, dan security key).

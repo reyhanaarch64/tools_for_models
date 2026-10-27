@@ -8,14 +8,14 @@ module.exports = {
   },
   firebase: {
     webApiKey: "REPLACE_WITH_FIREBASE_WEB_API_KEY",
-    databaseURL: "https://mcp-server-vercel-default-rtdb.asia-southeast1.firebasedatabase.app",
+    databaseURL: "https://REPLACE_PROJECT_ID-default-rtdb.REGION.firebasedatabase.app",
     serviceAccount: {
       // Bisa diisi dari JSON service account Firebase:
       // project_id     -> projectId
       // client_email   -> clientEmail
       // private_key    -> privateKey
-      projectId: "mcp-server-vercel",
-      clientEmail: "firebase-adminsdk-REPLACE@mcp-server-vercel.iam.gserviceaccount.com",
+      projectId: "REPLACE_PROJECT_ID",
+      clientEmail: "firebase-adminsdk-REPLACE@REPLACE_PROJECT_ID.iam.gserviceaccount.com",
       privateKey: "-----BEGIN PRIVATE KEY-----\\nREPLACE_ME\\n-----END PRIVATE KEY-----\\n"
     }
   },
