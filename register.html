@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f4f5f8" id="themeColorMeta">
+  <title>Daftar · Kernote-Node-beta</title>
+  <link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+  <div class="shell auth-shell-page">
+    <header class="topbar public-topbar">
+      <a class="brand brand-link" href="/"><div class="brand-mark"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></div><div><strong>Kernote-Node-beta</strong><span>mcp workspace</span></div></a>
+      <button id="themeTogglePublic" class="theme-toggle" type="button" aria-label="ganti tema" title="ganti tema"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
+    </header>
+
+    <main class="register-wrap">
+      <div class="card auth-card register-card">
+        <div class="eyebrow">registrasi</div>
+        <h1 class="register-title">buat akun baru</h1>
+        <p class="auth-subtitle">buat akun Kernote menggunakan email dan password.</p>
+        <form id="registerForm">
+          <label>email<input id="registerEmail" type="email" autocomplete="email" required></label>
+          <label>password<input id="registerPassword" type="password" autocomplete="new-password" minlength="6" required></label>
+          <label>ulangi password<input id="registerPasswordConfirm" type="password" autocomplete="new-password" minlength="6" required></label>
+          <button class="primary" type="submit" id="registerSubmit">buat akun</button>
+        </form>
+        <div id="registerMessage" class="message"></div>
+        <div class="auth-divider"><span>sudah punya akun?</span></div>
+        <a class="secondary auth-link" href="/">login</a>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="/register.js"></script>
+</body>
+</html>

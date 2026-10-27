@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f4f5f8" id="themeColorMeta">
+  <title>Kernote-Node-beta · MCP workspace</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+  <div class="shell auth-shell" id="pageShell">
+    <header class="topbar public-topbar">
+      <div class="brand"><div class="brand-mark"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></div><div><strong>Kernote-Node-beta</strong><span>mcp workspace</span></div></div>
+      <button id="themeTogglePublic" class="theme-toggle" type="button" aria-label="ganti tema" title="ganti tema"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
+      <button id="logoutBtn" class="ghost hidden">logout</button>
+    </header>
+
+    <main>
+      <section id="authView" class="auth-grid">
+        <div class="hero-card">
+          <div class="eyebrow">remote mcp platform</div>
+          <h1>one workspace for your AI tools.</h1>
+          <p>hubungkan Kernote-Node-beta ke client MCP. gunakan tool eksternal, jalankan JavaScript singkat di sandbox, dan kelola Markdown notes dengan akses per-akun.</p>
+          <div class="feature-row"><span>firebase auth</span><span>realtime database</span><span>oauth + pkce</span><span>markdown notes</span><span>isolated js runtime</span></div>
+        </div>
+        <div class="card auth-card">
+          <div class="eyebrow">login</div>
+          <h2 class="auth-title">masuk ke akun</h2>
+          <p class="auth-subtitle">gunakan email dan password akun Kernote kamu.</p>
+          <form id="authForm">
+            <label>email<input id="email" type="email" autocomplete="email" required></label>
+            <label>password<input id="password" type="password" autocomplete="current-password" minlength="6" required></label>
+            <button class="primary" type="submit" id="authSubmit">login</button>
+            <button type="button" id="resetPassword" class="text-button">lupa password?</button>
+          </form>
+          <div class="auth-divider"><span>belum punya akun?</span></div>
+          <a class="secondary auth-link" href="/register">buat akun baru</a>
+          <div id="authMessage" class="message"></div>
+        </div>
+      </section>
+
+      <section id="dashboardView" class="hidden dashboard-app">
+        <aside id="sidebar" class="sidebar">
+          <div class="sidebar-brand">
+            <div class="brand"><div class="brand-mark"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></div><div><strong>Kernote-Node-beta</strong><span>workspace</span></div></div>
+            <button id="sidebarClose" class="icon-btn mobile-only" aria-label="tutup menu"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+          </div>
+          <nav class="side-nav">
+            <button class="nav-item active" data-section="overview"><span class="nav-icon"><i class="fa-solid fa-house" aria-hidden="true"></i></span><span>overview</span></button>
+            <button class="nav-item" data-section="statistics"><span class="nav-icon"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i></span><span>statistics</span></button>
+            <button class="nav-item" data-section="notes"><span class="nav-icon"><i class="fa-solid fa-note-sticky" aria-hidden="true"></i></span><span>notes</span><b id="notesCount">0</b></button>
+            <button class="nav-item" data-section="integrations"><span class="nav-icon"><i class="fa-solid fa-plug" aria-hidden="true"></i></span><span>integrations</span></button>
+            <button class="nav-item" data-section="account"><span class="nav-icon"><i class="fa-solid fa-user" aria-hidden="true"></i></span><span>account</span></button>
+          </nav>
+          <div class="sidebar-footer"><div class="mini-user"><div class="avatar-dot" id="sidebarAvatarDot">K</div><div><strong id="sidebarName">akun</strong><span id="sidebarEmail">-</span></div></div><button id="sidebarLogout" class="secondary full-btn">logout</button></div>
+        </aside>
+        <div id="sidebarBackdrop" class="sidebar-backdrop hidden"></div>
+
+        <div class="dashboard-main">
+          <header class="dashboard-header">
+            <div class="dashboard-header-left"><button id="menuBtn" class="menu-btn" aria-label="buka menu"><span></span><span></span><span></span></button><div><div class="eyebrow" id="sectionEyebrow">dashboard</div><h1 id="sectionTitle">overview</h1></div></div>
+            <div class="header-actions"><button id="themeToggleDashboard" class="theme-toggle" type="button" aria-label="ganti tema" title="ganti tema"><i class="fa-solid fa-moon" aria-hidden="true"></i></button><div class="status-pill"><i></i> mcp auth aktif</div></div>
+          </header>
+
+          <section id="oauthApprovalCard" class="card oauth-approval-card hidden">
+            <div class="oauth-approval-main"><div class="eyebrow">mcp authorization</div><h2>izinkan akses ke Kernote-Node-beta?</h2><p id="oauthApprovalText">client MCP meminta akses ke akun ini.</p></div>
+            <div class="oauth-approval-actions"><button id="oauthDashboardAllow" class="primary" type="button">izinkan &amp; kembali ke Claude</button><button id="oauthDashboardDeny" class="secondary" type="button">tolak</button></div>
+            <div id="oauthDashboardMessage" class="message"></div>
+          </section>
+
+          <section id="section-overview" class="app-section">
+            <div class="welcome-row"><div><div class="eyebrow">dashboard</div><h2 id="welcomeName">akun</h2><p id="welcomeEmail"></p></div></div>
+            <div class="dashboard-grid overview-grid">
+              <div class="card span-2 overview-intro"><div class="eyebrow">your workspace</div><h2>tools, code, and notes in one place.</h2><p>pakai statistik untuk memantau penggunaan tool, kelola integrasi per-akun, atau jalankan tugas JavaScript singkat lewat MCP.</p><div class="overview-actions"><button class="primary" data-go-section="statistics"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i> lihat statistik</button><button class="secondary" data-go-section="notes"><i class="fa-solid fa-note-sticky" aria-hidden="true"></i> buka notes</button></div></div>
+              <div class="card"><div class="card-head"><div><h2>mcp endpoint</h2><p>pakai URL ini di client MCP</p></div></div><div class="endpoint"><code id="mcpEndpoint"></code><button id="copyEndpoint" class="copy">copy</button></div><div class="small-note">client akan diarahkan ke login OAuth saat pertama kali tersambung.</div></div>
+            </div>
+            <div class="card quick-note"><div><div class="eyebrow">cloud notes</div><h2>jadikan Kernote memory layer buat AI</h2><p>tulis Markdown di dashboard atau suruh AI membuat dan mengubah note lewat MCP. private note tidak muncul di daftar publik dan tidak bisa dibuka lewat MCP.</p></div><button class="primary" data-go-section="notes">buka notes</button></div>
+          </section>
+
+          <section id="section-statistics" class="app-section hidden statistics-section">
+            <div class="section-toolbar"><div><div class="eyebrow">usage analytics</div><h2>statistics</h2><p>ringkasan penggunaan MCP akun ini. data diperbarui realtime saat tersedia.</p></div><button id="refreshStats" class="ios-button secondary" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i><span>refresh</span></button></div>
+            <div class="stat-grid">
+              <div class="stat-card"><span>total tool calls</span><strong id="totalCalls">0</strong><small>seluruh pemanggilan</small></div>
+              <div class="stat-card"><span>berhasil</span><strong id="successCalls">0</strong><small>tanpa error</small></div>
+              <div class="stat-card"><span>error</span><strong id="errorCalls">0</strong><small>pemanggilan gagal</small></div>
+              <div class="stat-card"><span>jenis tool</span><strong id="toolKinds">0</strong><small>tool yang digunakan</small></div>
+            </div>
+            <div class="card statistics-usage-card"><div class="card-head"><div><h2>tool usage</h2><p>urut dari penggunaan terbanyak · maksimum 30 tool</p></div><span class="live-badge"><i></i> live</span></div><div class="usage-list" id="usageList"><div class="empty">belum ada pemakaian tool.</div></div></div>
+            <div class="card statistics-usage-card tool-limits-card"><div class="card-head"><div><h2>tool call limits</h2><p id="quotaSummary">batas 400 pemanggilan untuk setiap tool, dihitung per akun.</p></div><span class="live-badge"><i></i> live</span></div><label class="quota-filter-wrap" for="toolLimitFilter"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input id="toolLimitFilter" type="search" placeholder="cari nama tool..." autocomplete="off"></label><div class="usage-list" id="toolLimitsList"><div class="empty">memuat limitasi tool...</div></div></div>
+          </section>
+
+          <section id="section-notes" class="app-section hidden notes-library-section">
+            <header class="notes-library-header">
+              <div class="notes-heading-copy">
+                <div class="eyebrow">personal knowledge space</div>
+                <h2>notes</h2>
+                <p>Markdown cloud notes yang bisa dibuka penuh atau dikelola lewat MCP.</p>
+              </div>
+              <div class="notes-header-actions">
+                <button id="notesHomeBtn" class="ios-button secondary" type="button" title="kembali ke dashboard" aria-label="kembali ke dashboard"><i class="fa-solid fa-house" aria-hidden="true"></i><span>dashboard</span></button>
+                <button id="themeToggleNotes" class="theme-toggle" type="button" aria-label="ganti tema" title="ganti tema"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
+                <button id="refreshNotesBtn" class="ios-button secondary" type="button" title="refresh notes"><i class="fa-solid fa-rotate" aria-hidden="true"></i><span>refresh</span></button>
+                <button id="newNoteBtn" class="ios-button primary" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i><span>note baru</span></button>
+              </div>
+            </header>
+            <div class="notes-library-toolbar">
+              <label class="notes-search-wrap" for="noteFilter"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input id="noteFilter" placeholder="cari judul, noteId, atau deskripsi..." autocomplete="off"></label>
+              <span id="notesListHint" class="notes-total">0 notes</span>
+            </div>
+            <div id="notesList" class="notes-library-grid" aria-live="polite"><div class="empty note-empty">belum ada note.</div></div>
+          </section>
+          <section id="section-integrations" class="app-section hidden">
+            <div class="section-toolbar"><div><div class="eyebrow">per-user credentials</div><h2>integrations</h2><p>setiap akun punya credential sendiri. value rahasia disimpan terenkripsi di RTDB.</p></div></div>
+            <div class="integration-grid large-integrations">
+              <div class="integration"><div class="integration-icon">GH</div><div class="integration-main"><strong>GitHub</strong><span id="githubStatus">belum terhubung</span><small>dipakai oleh tool GitHub pada akun ini.</small></div><button class="secondary" data-connect="github">atur</button></div>
+              <div class="integration"><div class="integration-icon">GM</div><div class="integration-main"><strong>Gmail</strong><span id="gmailStatus">belum terhubung</span><small>dipakai oleh `send_email` pada akun ini.</small></div><button class="secondary" data-connect="gmail">atur</button></div>
+            </div>
+          </section>
+
+          <section id="section-account" class="app-section hidden">
+            <div class="section-toolbar"><div><div class="eyebrow">firebase authentication</div><h2>account</h2><p>profil dan akses akun Kernote.</p></div></div>
+            <div class="card account-card"><div class="profile-row"><img id="profilePhoto" alt=""><div><strong id="profileName">-</strong><span id="profileProvider">-</span><small id="profileAccountEmail">-</small></div></div><div class="account-detail"><span>mcp endpoint</span><code id="accountMcpEndpoint"></code></div><button id="accountLogout" class="secondary danger">logout</button></div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <section id="noteFocusScreen" class="note-focus-screen hidden" aria-label="note workspace">
+    <header class="note-focus-header">
+      <div class="focus-leading">
+        <button id="noteBackBtn" class="focus-icon-button" type="button" aria-label="kembali ke daftar notes" title="kembali"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button>
+        <div class="focus-brand-mark"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></div>
+        <div class="focus-brand-copy"><strong>Kernote-Node-beta</strong><span id="editorMode">new note</span></div>
+      </div>
+      <div class="focus-document-title"><h1 id="editorHeading">untitled note</h1><span id="focusNoteId">belum disimpan</span></div>
+      <div class="focus-actions">
+        <button id="themeToggleEditor" class="theme-toggle" type="button" aria-label="ganti tema" title="ganti tema"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
+        <button id="noteSettingsQuickBtn" class="focus-action-button" type="button" title="pengaturan note" aria-label="pengaturan note"><i class="fa-solid fa-gear" aria-hidden="true"></i><span>settings</span></button>
+        <button id="previewQuickBtn" class="focus-action-button" type="button" title="lihat preview" aria-label="lihat preview"><i class="fa-solid fa-eye" aria-hidden="true"></i><span>preview</span></button>
+        <button id="deleteNoteBtn" class="focus-action-button danger hidden" type="button" title="hapus note" aria-label="hapus note"><i class="fa-solid fa-trash" aria-hidden="true"></i><span>hapus</span></button>
+        <button id="saveNoteBtn" class="ios-button primary focus-save-button" type="button"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i><span>simpan</span></button>
+      </div>
+    </header>
+    <div id="noteMessage" class="message focus-note-message" role="status"></div>
+    <textarea id="noteContent" class="focus-markdown-editor" spellcheck="false" aria-label="isi note Markdown" placeholder="# mulai menulis
+
+Tulis langsung di sini. Editor memakai seluruh ruang layar.
+
+Tekan simpan untuk mengatur judul, noteId, akses AI, dan enkripsi."></textarea>
+    <article id="notePreview" class="focus-markdown-preview hidden" aria-label="preview Markdown"></article>
+    <footer class="note-focus-footer"><span id="focusFooterNoteId">draft baru</span><span><i class="fa-regular fa-file-lines" aria-hidden="true"></i> <span id="contentCount">0 KB</span></span></footer>
+  </section>
+
+  <dialog id="noteSettingsDialog" class="ios-dialog"><form method="dialog" id="noteSettingsForm" class="dialog-card note-settings-card">
+    <div class="dialog-topline"><div><div class="eyebrow">note settings</div><h2>pengaturan note</h2><p>metadata, akses AI, dan encryption.</p></div><button value="cancel" class="close" type="submit" aria-label="tutup"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+    <div class="settings-form-grid">
+      <label>nama note<input id="settingsNoteTitle" maxlength="200" placeholder="judul note" autocomplete="off"></label>
+      <label>noteId<input id="settingsNoteId" maxlength="80" pattern="[A-Za-z0-9_-]+" placeholder="contoh: research-tiktok" autocomplete="off"></label>
+      <label class="settings-span-2">deskripsi <span class="field-count"><span id="settingsDescriptionCount">0</span>/300</span><textarea id="settingsNoteDescription" maxlength="300" rows="3" placeholder="deskripsi singkat untuk membantu AI memahami note"></textarea></label>
+      <label>status<select id="settingsNoteStatus"><option value="draft">draft</option><option value="published">published</option></select></label>
+      <label>AI access<select id="settingsNoteVisibility"><option value="public">public</option><option value="private">private</option></select></label>
+      <label class="settings-span-2">penyimpanan<select id="settingsNoteEncrypted"><option value="true">encrypted — simpan ciphertext di database</option><option value="false">plaintext — simpan Markdown raw</option></select></label>
+    </div>
+    <div class="settings-info"><strong>public/private</strong><span>public membuat note tersedia untuk MCP. private membuat note tidak muncul di list dan tidak bisa dibuka model.</span><strong>encryption</strong><span>hanya melindungi isi di database. note public yang diminta MCP tetap dikembalikan sebagai Markdown asli.</span></div>
+    <div class="dialog-actions"><button value="cancel" class="ios-button secondary">batal</button><button id="saveNoteSettingsBtn" value="default" class="ios-button primary" type="button">simpan</button></div>
+    <div id="noteSettingsMessage" class="message"></div>
+  </form></dialog>
+
+  <dialog id="credentialDialog"><form method="dialog" id="credentialForm" class="dialog-card"><div class="card-head"><div><h2 id="credentialTitle">integration</h2><p id="credentialHelp"></p></div><button value="cancel" class="close" type="submit" aria-label="tutup"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div><div id="githubFields" class="fields hidden"><label>GitHub PAT<input id="githubToken" type="password" autocomplete="off" placeholder="ghp_... atau github_pat_..."></label></div><div id="gmailFields" class="fields hidden"><label>email Gmail<input id="gmailUser" type="email" autocomplete="off"></label><label>app password<input id="gmailPassword" type="password" autocomplete="off" placeholder="16 karakter app password"></label></div><div class="dialog-actions"><button value="cancel" class="secondary">batal</button><button value="save" class="primary">simpan terenkripsi</button></div><div id="credentialMessage" class="message"></div></form></dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked@18.1.0/lib/marked.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.4.16/dist/purify.min.js"></script>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

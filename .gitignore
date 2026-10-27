@@ -1,0 +1,11 @@
+node_modules/
+.vercel/
+*.log
+.DS_Store
+.env
+.env.*
+*.pem
+*.key
+credential.js
+*serviceAccount*.json
+firebase-adminsdk*.json
